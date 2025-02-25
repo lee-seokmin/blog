@@ -7,6 +7,7 @@ import { faMoon, faSun, faCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default function Header() {
   const [isDark, setIsDark] = useState(false);
+  const [isRotating, setIsRotating] = useState(false);
 
   useEffect(() => {
     if (isDark) {
@@ -19,7 +20,9 @@ export default function Header() {
   }, [isDark]);
 
   const toggleDarkMode = () => {
+    setIsRotating(true);
     setIsDark((prev) => !prev);
+    setTimeout(() => setIsRotating(false), 500);
   };
 
   return (
@@ -36,7 +39,7 @@ export default function Header() {
           </p>
         </Link>
         <div
-          className="group fa-layers fa-fw fa-3x cursor-pointer"
+          className={`group fa-layers fa-fw fa-3x cursor-pointer ${isRotating ? 'icon-rotate' : ''}`}
           onClick={toggleDarkMode}
         >
           <FontAwesomeIcon

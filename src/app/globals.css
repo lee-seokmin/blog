@@ -32,6 +32,23 @@ body {
   }
 }
 
+@keyframes rotateIcon {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-30deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.icon-rotate {
+  animation: rotateIcon 0.5s ease-in-out;
+}
+
 .blog-shine {
   position: relative;
   display: inline-block;
