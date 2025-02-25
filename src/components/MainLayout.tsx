@@ -9,7 +9,7 @@ export default function MainLayout() {
         <li className="border-b-2 border-transparent hover:border-red-300 cursor-pointer pl-5 pr-5">Posts</li>
         <li className="border-b-2 border-transparent hover:border-red-300 cursor-pointer pl-5 pr-5">Folder</li>
       </ul>
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-2 gap-10">
         {dummyPosts.map((_, index) => (
           <Card key={index} />
         ))}

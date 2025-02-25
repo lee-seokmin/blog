@@ -80,3 +80,32 @@ body {
   opacity: 1;
   animation: highlighterAnimation 0.5s ease-out forwards;
 }
+
+.Card:hover .Card__image {
+  transform: scale(1.2);
+}
+
+.Card__imageHolder::before {
+  content: "description";
+  color: #fff;
+  font-size: 1rem;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 1.5em;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  z-index: 5;
+  transition: opacity 400ms ease;
+}
+
+.Card:hover .Card__imageHolder::before {
+  opacity: 1;
+}
+
+.Card__image {
+  transition: all 400ms ease;
+}

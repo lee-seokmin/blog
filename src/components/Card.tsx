@@ -1,11 +1,13 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faMessage } from '@fortawesome/free-regular-svg-icons';
 import Image from 'next/image';
 
 export default function Card() {
   return (
-    <div className="flex w-full aspect-square rounded-3xl cursor-pointer flex-col gap-3">
-      <div className="relative w-full aspect-[3/2] rounded-3xl">
+    <div className="flex w-full aspect-square rounded-3xl cursor-pointer flex-col gap-3 Card">
+      <div className="relative w-full aspect-[3/2] rounded-3xl Card__imageHolder overflow-hidden">
         <Image
-          className="object-cover rounded-3xl"
+          className="object-cover rounded-3xl Card__image"
           src="https://junghyeonsu.com/static/71dc23f96460c19de7bd460ee75ca3da/3dfe0/cover.webp"
           alt="Profile picture"
           fill />
@@ -16,7 +18,16 @@ export default function Card() {
       </div>
       <div className="pl-2 pr-2">
         <p className="text-2xl font-bold">Title</p>
-        <p className="text-m">Description</p>
+      </div>
+      <div className="flex pl-2 pr-2 flex-row gap-3">
+        <div className="flex gap-1 items-center">
+          <FontAwesomeIcon icon={faHeart} />
+          <span>0</span>
+        </div>
+        <div className="flex gap-1 items-center">
+          <FontAwesomeIcon icon={faMessage} />
+          <span>0</span>
+        </div>
       </div>
     </div>
   );
