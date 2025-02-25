@@ -5,17 +5,16 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --tint: oklch(0.928 0.006 264.531);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: oklch(0.278 0.033 256.848);
+  --foreground: #ededed;
+  --tint: oklch(0.373 0.034 259.733);
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
