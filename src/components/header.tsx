@@ -1,27 +1,18 @@
 "use client";
 
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon, faSun, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { useTheme } from '@/context/ThemeProvider';
 
 export default function Header() {
-  const [isDark, setIsDark] = useState(false);
+  const { isDark, toggleDarkMode } = useTheme();
   const [isRotating, setIsRotating] = useState(false);
 
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.remove('light');
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-    }
-  }, [isDark]);
-
-  const toggleDarkMode = () => {
+  const handleToggle = () => {
     setIsRotating(true);
-    setIsDark((prev) => !prev);
+    toggleDarkMode();
     setTimeout(() => setIsRotating(false), 500);
   };
 
@@ -40,7 +31,7 @@ export default function Header() {
         </Link>
         <div
           className={`group fa-layers fa-fw fa-3x cursor-pointer ${isRotating ? 'icon-rotate' : ''}`}
-          onClick={toggleDarkMode}
+          onClick={handleToggle}
         >
           <FontAwesomeIcon
             icon={faCircle}

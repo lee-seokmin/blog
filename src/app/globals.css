@@ -2,20 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: var(--font-sour-gummy);
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
   --tint: oklch(0.928 0.006 264.531);
-  --highlighter-base: rgba(255, 237, 58, 1);
-  --highlighter-accent: rgba(255, 208, 26, 1);
+  --highlighter: rgba(255, 237, 58, 1);
+  --accent: #FF7F7F;
 }
 
 .dark {
   --background: oklch(0.278 0.033 256.848);
   --foreground: #ededed;
   --tint: oklch(0.373 0.034 259.733);
-  --highlighter-base: rgba(58, 175, 220, 1);
-  --highlighter-accent: rgba(34, 150, 194, 1);
+  --highlighter: rgba(58, 175, 220, 1);
+  --accent: #9296A9;
 }
 
 body {
@@ -39,7 +43,6 @@ body {
   50% {
     transform: rotate(-30deg);
   }
-
   100% {
     transform: rotate(0deg);
   }
@@ -66,11 +69,7 @@ body {
   bottom: 0;
   width: 100%;
   height: 1.3em;
-  background: linear-gradient(
-    90deg,
-    var(--highlighter-base) 90%,
-    var(--highlighter-accent) 10%
-  );
+  background: var(--highlighter);
   transform: translateX(-100%);
   pointer-events: none;
   opacity: 0;
