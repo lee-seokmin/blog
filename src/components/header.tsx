@@ -1,15 +1,32 @@
 "use client";
 
 import Link from 'next/link';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faMoon, faSun, faCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default function Header() {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.remove('light');
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    }
+  }, [isDark]);
+
+  const toggleDarkMode = () => {
+    setIsDark((prev) => !prev);
+  };
+
   return (
     <header className="flex bg-background text-foreground p-5 justify-between items-center">
       <Link href="/" className="flex">
-        <p className="hover:underline font-sourgummy font-bold text-2xl italic">
-          Blog.
+        <p className="font-sourgummy font-bold text-2xl italic blog-shine">
+          Dev Blog.
         </p>
       </Link>
       <div className="flex gap-10 items-center">
@@ -18,9 +35,19 @@ export default function Header() {
             Portfolio
           </p>
         </Link>
-        <div className="group fa-layers fa-fw fa-3x cursor-pointer">
-          <FontAwesomeIcon icon={faCircle} className="group-hover:text-tint text-background" />
-          <FontAwesomeIcon icon={faMoon} transform="shrink-8" />
+        <div
+          className="group fa-layers fa-fw fa-3x cursor-pointer"
+          onClick={toggleDarkMode}
+        >
+          <FontAwesomeIcon
+            icon={faCircle}
+            className="group-hover:text-tint text-background"
+          />
+          {isDark ? (
+            <FontAwesomeIcon icon={faSun} transform="shrink-8" />
+          ) : (
+            <FontAwesomeIcon icon={faMoon} transform="shrink-8" />
+          )}
         </div>
       </div>
     </header>
