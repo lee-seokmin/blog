@@ -109,3 +109,11 @@ body {
 .Card__image {
   transition: all 400ms ease;
 }
+
+.Memos::after {
+  content: "";
+  display: block;
+  width: 100%;
+  border: 1px solid var(--foreground);
+  border-radius: 3px;
+}

@@ -3,7 +3,7 @@ import { Sour_Gummy } from "next/font/google";
 import "./globals.css";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
-import { ThemeProvider } from "@/context/ThemeProvider";
+import { ThemeProvider } from "@/context/ThemeContext";
 config.autoAddCss = false
 
 const sourgummy = Sour_Gummy({

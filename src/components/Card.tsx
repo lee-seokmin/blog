@@ -2,13 +2,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faMessage } from '@fortawesome/free-regular-svg-icons';
 import Image from 'next/image';
 
-export default function Card() {
+export default function Card({ url }: { url: string }) {
   return (
     <div className="flex w-full aspect-square rounded-3xl cursor-pointer flex-col gap-3 Card">
       <div className="relative w-full aspect-[3/2] rounded-3xl Card__imageHolder overflow-hidden">
         <Image
           className="object-cover rounded-3xl Card__image"
-          src="https://junghyeonsu.com/static/71dc23f96460c19de7bd460ee75ca3da/3dfe0/cover.webp"
+          src={url}
           alt="Profile picture"
           fill />
       </div>
