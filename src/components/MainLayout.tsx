@@ -14,6 +14,9 @@ export default function MainLayout() {
   const slides: Array<string> = [
     "https://junghyeonsu.com/static/71dc23f96460c19de7bd460ee75ca3da/3dfe0/cover.webp",
     "https://junghyeonsu.com/static/1077d5b05b43f57b75000f91b1bde1f6/71d4d/cover.webp",
+    "https://junghyeonsu.com/static/e7b47cc176352a2eb0d9a41620c070ac/67ded/cover.webp",
+    "https://junghyeonsu.com/static/71dc23f96460c19de7bd460ee75ca3da/3dfe0/cover.webp",
+    "https://junghyeonsu.com/static/1077d5b05b43f57b75000f91b1bde1f6/71d4d/cover.webp",
     "https://junghyeonsu.com/static/e7b47cc176352a2eb0d9a41620c070ac/67ded/cover.webp"
   ]
 
@@ -57,10 +60,10 @@ export default function MainLayout() {
                     <button
                       key={index}
                       onClick={() => setCurrentSlide(index)}
-                      className={`w-2 h-2 rounded-full transition-all ${
+                      className={`w-2 h-2 rounded-full ${
                         currentSlide === index 
-                          ? 'bg-black scale-125' 
-                          : 'bg-gray-300 hover:bg-gray-400'
+                          ? 'bg-foreground scale-125'
+                          : 'border border-foreground text-current hover:bg-tint'
                       }`}
                       aria-label={`Go to slide ${index + 1}`}
                     />
@@ -77,8 +80,11 @@ export default function MainLayout() {
           />
         </div>
         <div className="flex flex-col gap-3 w-full md:w-1/5">
-          <h1 className="text-xl font-bold italic md:pr-5 cursor-pointer Memos">Memos.</h1>
-          <p>dsad</p>
+          <h1 className="text-xl font-bold italic md:pr-5 cursor-pointer Categories">Categories.</h1>
+          <ul className="flex cursor-pointer flex-col gap-2">
+            <li className="hover:underline">Python</li>
+            <li className="hover:underline">일기</li>
+          </ul>
         </div>
       </div>
       <div className="flex flex-col gap-5">

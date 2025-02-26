@@ -112,7 +112,7 @@ body {
   transition: all 400ms ease;
 }
 
-.Memos::after {
+.Categories::after {
   content: "";
   display: block;
   width: 100%;
