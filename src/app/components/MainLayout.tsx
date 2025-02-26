@@ -1,15 +1,16 @@
 'use client';
 
-import Card from "@/components/Card";
-import Carousel from "@/components/Carousel";
+import Card from "@/app/components/Card";
+import Carousel from "@/app/components/Carousel";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { countMdxFiles } from "../actions/fileActions";
 
 export default function MainLayout() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const dummyPosts = Array(10).fill(null);
+  const [postCount, setPostCount] = useState(0);
 
   const slides: Array<string> = [
     "https://junghyeonsu.com/static/71dc23f96460c19de7bd460ee75ca3da/3dfe0/cover.webp",
@@ -19,6 +20,15 @@ export default function MainLayout() {
     "https://junghyeonsu.com/static/1077d5b05b43f57b75000f91b1bde1f6/71d4d/cover.webp",
     "https://junghyeonsu.com/static/e7b47cc176352a2eb0d9a41620c070ac/67ded/cover.webp"
   ]
+
+  useEffect(() => {
+    const fetchCount = async () => {
+      const count = await countMdxFiles();
+      console.log('Number of MDX files:', count);
+      setPostCount(count);
+    };
+    fetchCount();
+  }, []);
 
   const previousSlide = () => {
     if (currentSlide === 0) {
@@ -90,7 +100,7 @@ export default function MainLayout() {
       <div className="flex flex-col gap-5">
         <h1 className="text-xl font-bold italic hover:underline cursor-pointer">Recent Posts.</h1>
         <div className="grid md:grid-cols-2 gap-10 grid-cols-1">
-          {dummyPosts.map((_, index) => (
+          {Array(postCount).fill(null).map((_, index) => (
             <Card key={index} url={"https://junghyeonsu.com/static/71dc23f96460c19de7bd460ee75ca3da/3dfe0/cover.webp"} />
           ))}
         </div>

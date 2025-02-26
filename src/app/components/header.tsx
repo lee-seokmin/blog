@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon, faSun, faCircle } from '@fortawesome/free-solid-svg-icons';
-import { useTheme } from '@/context/ThemeContext';
+import { useTheme } from '@/app/context/ThemeContext';
 
 export default function Header() {
   const { isDark, toggleDarkMode } = useTheme();

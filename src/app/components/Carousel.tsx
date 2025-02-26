@@ -1,4 +1,4 @@
-import Card from "@/components/Card";
+import Card from "@/app/components/Card";
 import { Dispatch, SetStateAction, useEffect, useCallback } from "react";
 
 interface CarouselProps {
