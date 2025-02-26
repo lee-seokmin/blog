@@ -17,15 +17,15 @@ export default function Header() {
   };
 
   return (
-    <header className="flex bg-background text-foreground p-5 justify-between items-center">
+    <header className="flex bg-background text-foreground p-5 justify-between items-center sticky top-0 z-50">
       <Link href="/" className="flex">
-        <p className="font-sourgummy font-bold text-2xl italic blog-shine">
+        <p className="font-bold text-2xl italic blog-shine">
           Dev Blog.
         </p>
       </Link>
       <div className="flex gap-10 items-center">
         <Link href="https://seokminfolio.netlify.app/" target="_blank" className="flex">
-          <p className="hover:underline font-sourgummy text-xl italic">
+          <p className="hover:underline text-xl italic">
             Portfolio
           </p>
         </Link>
