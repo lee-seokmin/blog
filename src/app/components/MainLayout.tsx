@@ -15,6 +15,7 @@ export default function MainLayout() {
   const [posts, setPosts] = useState<MdxContent[]>([]);
   const [bestPosts, setBestPosts] = useState<MdxContent[]>([]);
   const [uniqueTags, setUniqueTags] = useState<string[]>([]);
+  const [tagCounts, setTagCounts] = useState<{[key: string]: number}>({});
   const [currentCategory, setCurrentCategory] = useState<string>("Recent Posts.");
 
   useEffect(() => {
@@ -23,11 +24,16 @@ export default function MainLayout() {
       setPosts(content);
       setBestPosts(content.filter(post => post.best));
       
-      const tags = content.reduce((acc: string[], post) => {
-        const postTags = post.tags.split(',').map(tag => tag.trim());
-        return [...acc, ...postTags];
-      }, []);
-      setUniqueTags([...new Set(tags)]);
+      // Count posts per tag
+      const counts: {[key: string]: number} = {};
+      content.forEach(post => {
+        const tag = post.tags.trim();
+        counts[tag] = (counts[tag] || 0) + 1;
+      });
+      setTagCounts(counts);
+      
+      const tags = Object.keys(counts);
+      setUniqueTags(tags);
     };
     fetchPosts();
   }, []);
@@ -95,12 +101,14 @@ export default function MainLayout() {
           <h1 className="text-xl font-bold italic md:pr-5 cursor-pointer Categories">Categories.</h1>
           <ul className="flex cursor-pointer flex-col gap-2">
             <Link href={"#Recent Posts."}>
-              <li className="hover:underline" onClick={() => setCurrentCategory("Recent Posts.")}>Recent Posts.</li>
+              <li className="hover:underline" onClick={() => setCurrentCategory("Recent Posts.")}>
+                Recent Posts. ({posts.length})
+              </li>
             </Link>
             {uniqueTags.map((tag, index) => (
               <Link key={index} href={`#${tag}`}>
                 <li className="hover:underline" onClick={() => setCurrentCategory(tag)}>
-                  {tag}
+                  {tag} ({tagCounts[tag]})
                 </li>
               </Link>
             ))}
