@@ -30,7 +30,7 @@ export default function Card({ content }: CardProps) {
 
   if (content) {
     return (
-      <Link href={`/posts/${content.category}/${content.slug}`}>
+      <Link href={`/${content.category}/${content.slug}`}>
         {cardContent}
       </Link>
     );

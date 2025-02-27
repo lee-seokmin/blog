@@ -17,7 +17,7 @@ export interface MdxContent {
 }
 
 export async function getMdxContent(): Promise<MdxContent[]> {
-  const postsDirectory = path.join(process.cwd(), 'src/app/posts');
+  const postsDirectory = path.join(process.cwd(), 'contents');
   const contents: MdxContent[] = [];
 
   const categories = fs.readdirSync(postsDirectory);
