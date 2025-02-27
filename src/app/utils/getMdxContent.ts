@@ -6,6 +6,7 @@ import matter from 'gray-matter';
 
 export interface MdxContent {
   title: string;
+  thumbnail: string;
   date: string;
   category: string;
   tags: string;
@@ -31,8 +32,14 @@ export async function getMdxContent(): Promise<MdxContent[]> {
           const fileContents = fs.readFileSync(fullPath, 'utf8');
           const { data, content } = matter(fileContents);
           
+          // Create absolute thumbnail path
+          const thumbnailPath = data.thumbnail
+            ? `${path.join("/posts", category, data.thumbnail)}`
+            : `${path.join("/posts", category, 'cover.jpg')}`;
+          
           contents.push({
             title: data.title || 'Untitled',
+            thumbnail: thumbnailPath,
             date: data.createAt || new Date().toISOString(),
             category: decodeURIComponent(category),
             slug: data.slug || filename.replace('.mdx', ''),

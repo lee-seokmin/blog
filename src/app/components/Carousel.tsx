@@ -31,11 +31,14 @@ export default function Carousel({
   return (
     <div className="overflow-hidden relative group">
       <div
-        className="flex transition-transform duration-500 ease-out"
+        className="flex transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {slides.map((slide, index: number) => (
-          <div key={index} className="min-w-full">
+          <div 
+            key={index} 
+            className="min-w-full transform will-change-transform"
+          >
             <Card content={slide} />
           </div>
         ))}

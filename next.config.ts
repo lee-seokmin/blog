@@ -2,17 +2,16 @@ import type { NextConfig } from "next";
 import nextMDX from '@next/mdx';
 
 const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'junghyeonsu.com',
-        pathname: '/static/**',
-      },
-    ],
-  },
+  content: [
+    './app/**/*.{js, ts, jsx, tsx, mdx}',
+    './pages/**/*.{js, ts, jsx, tsx, mdx}',
+    './components/**/*.{js, ts, jsx, tsx, mdx}',
+  ],
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   reactStrictMode: true,
+  images: {
+    unoptimized: true
+  },
   webpack: (config) => {
     config.resolve.fallback = { fs: false };
 
