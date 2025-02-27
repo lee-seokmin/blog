@@ -35,8 +35,8 @@ export async function getMdxContent(): Promise<MdxContent[]> {
           
           // Create absolute thumbnail path
           const thumbnailPath = data.thumbnail
-            ? `${path.join("/posts", category, data.thumbnail)}`
-            : `${path.join("/posts", category, 'cover.jpg')}`;
+            ? `${path.join("/PostCover", category, data.thumbnail)}`
+            : `${path.join("/PostCover", category, 'cover.jpg')}`;
           
           contents.push({
             title: data.title || 'Untitled',
