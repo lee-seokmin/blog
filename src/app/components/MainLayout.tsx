@@ -7,6 +7,7 @@ import { faPlay, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg
 import { useState, useEffect } from 'react';
 import { getMdxContent } from '../utils/getMdxContent';
 import type { MdxContent } from '../utils/getMdxContent';
+import Link from "next/link";
 
 export default function MainLayout() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -14,6 +15,7 @@ export default function MainLayout() {
   const [posts, setPosts] = useState<MdxContent[]>([]);
   const [bestPosts, setBestPosts] = useState<MdxContent[]>([]);
   const [uniqueTags, setUniqueTags] = useState<string[]>([]);
+  const [currentCategory, setCurrentCategory] = useState<string>("Recent Posts.");
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -92,23 +94,29 @@ export default function MainLayout() {
         <div className="flex flex-col gap-3 w-full md:w-1/5">
           <h1 className="text-xl font-bold italic md:pr-5 cursor-pointer Categories">Categories.</h1>
           <ul className="flex cursor-pointer flex-col gap-2">
+            <Link href={"#Recent Posts."}>
+              <li className="hover:underline" onClick={() => setCurrentCategory("Recent Posts.")}>Recent Posts.</li>
+            </Link>
             {uniqueTags.map((tag, index) => (
-              <li key={index} className="hover:underline">
-                {tag}
-              </li>
+              <Link key={index} href={`#${tag}`}>
+                <li className="hover:underline" onClick={() => setCurrentCategory(tag)}>
+                  {tag}
+                </li>
+              </Link>
             ))}
           </ul>
         </div>
       </div>
       <div className="flex flex-col gap-5">
-        <h1 className="text-xl font-bold italic hover:underline cursor-pointer">Recent Posts.</h1>
+        <h1 className="text-xl font-bold italic hover:underline cursor-pointer" id={currentCategory}>{currentCategory}</h1>
         <div className="grid md:grid-cols-2 gap-10 grid-cols-1">
-          {posts.map((post, index) => (
-            <Card 
-              key={index} 
-              content={post}
-            />
-          ))}
+          {posts
+            .filter(post => 
+              currentCategory === "Recent Posts." ? true : post.tags === currentCategory
+            )
+            .map((post, index) => (
+              <Card key={index} content={post} />
+            ))}
         </div>
       </div>
     </div>

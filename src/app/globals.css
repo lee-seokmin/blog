@@ -29,6 +29,10 @@ body {
   background: var(--background);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @keyframes highlighterAnimation {
   0% {
     transform: translateX(-100%);
@@ -118,8 +122,4 @@ body {
   width: 100%;
   border: 1px solid var(--foreground);
   border-radius: 3px;
-}
-
-.markdown-body {
-  background-color: var(--background);
 }
