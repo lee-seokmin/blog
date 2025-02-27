@@ -5,12 +5,13 @@ import Carousel from "@/app/components/Carousel";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
-import { countMdxFiles } from "../actions/fileActions";
+import { getMdxContent } from '../utils/getMdxContent';
+import type { MdxContent } from '../utils/getMdxContent';
 
 export default function MainLayout() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [postCount, setPostCount] = useState(0);
+  const [posts, setPosts] = useState<MdxContent[]>([]);
 
   const slides: Array<string> = [
     "https://junghyeonsu.com/static/71dc23f96460c19de7bd460ee75ca3da/3dfe0/cover.webp",
@@ -22,12 +23,12 @@ export default function MainLayout() {
   ]
 
   useEffect(() => {
-    const fetchCount = async () => {
-      const count = await countMdxFiles();
-      console.log('Number of MDX files:', count);
-      setPostCount(count);
+    const fetchPosts = async () => {
+      const content = await getMdxContent();
+      console.log(content);
+      setPosts(content);
     };
-    fetchCount();
+    fetchPosts();
   }, []);
 
   const previousSlide = () => {
@@ -100,8 +101,11 @@ export default function MainLayout() {
       <div className="flex flex-col gap-5">
         <h1 className="text-xl font-bold italic hover:underline cursor-pointer">Recent Posts.</h1>
         <div className="grid md:grid-cols-2 gap-10 grid-cols-1">
-          {Array(postCount).fill(null).map((_, index) => (
-            <Card key={index} url={"https://junghyeonsu.com/static/71dc23f96460c19de7bd460ee75ca3da/3dfe0/cover.webp"} />
+          {posts.map((post, index) => (
+            <Card 
+              key={index} 
+              content={post}
+            />
           ))}
         </div>
       </div>
