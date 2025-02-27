@@ -94,7 +94,7 @@ export default function MainLayout() {
             slides={bestPosts} 
             currentSlide={currentSlide} 
             setCurrentSlide={setCurrentSlide}
-            isPaused={isPaused} 
+            isPaused={isPaused}
           />
         </div>
         <div className="flex flex-col gap-3 w-full md:w-1/5">
@@ -117,7 +117,7 @@ export default function MainLayout() {
       </div>
       <div className="flex flex-col gap-5">
         <h1 className="text-xl font-bold italic hover:underline cursor-pointer" id={currentCategory}>{currentCategory}</h1>
-        <div className="grid md:grid-cols-2 gap-10 grid-cols-1">
+        <div className="grid md:grid-cols-2 gap-10 grid-cols-1 SlideInLeft">
           {posts
             .filter(post => 
               currentCategory === "Recent Posts." ? true : post.tags === currentCategory

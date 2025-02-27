@@ -29,7 +29,7 @@ export default function Carousel({
   }, [interval, isPaused, nextSlide]);
 
   return (
-    <div className="overflow-hidden relative group">
+    <div className="overflow-hidden relative group SlideInLeft">
       <div
         className="flex transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}

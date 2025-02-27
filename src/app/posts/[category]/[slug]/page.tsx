@@ -26,7 +26,7 @@ export default async function PostPage({ params }: Props) {
   return (
     <div>
       <Header />
-      <div className="flex w-full max-w-[900px] mx-auto p-4">
+      <div className="flex w-full max-w-[900px] mx-auto p-4 SlideInLeft">
         <div className="markdown-body w-full">
           <div className="flex items-end gap-5">
             <h1>{post.title}</h1>
