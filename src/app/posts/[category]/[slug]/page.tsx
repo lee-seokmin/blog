@@ -4,22 +4,32 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import 'github-markdown-css';
 import Image from 'next/image';
 import Footer from '@/app/components/footer';
+import { Metadata } from 'next';
 
-interface Props {
+type Props = {
   params: {
     category: string;
     slug: string;
   };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { category, slug } = await params;
+  return {
+    title: `${category} - ${slug}`,
+  };
 }
 
 export default async function PostPage({ params }: Props) {
+  const { category, slug } = await params;
   const posts = await getMdxContent();
   const post = posts.find(
-    p => p.category === params.category && p.slug === params.slug
+    p => p.category === category && p.slug === slug
   );
 
   if (!post) {
-    console.log(params);
+    console.log({ category, slug });
     return <div>Post not found</div>;
   }
 
