@@ -1,6 +1,7 @@
 import { getMdxContent } from '@/app/utils/getMdxContent';
 import Header from '@/app/components/header';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import 'github-markdown-css';
 
 interface Props {
   params: {
@@ -24,10 +25,10 @@ export default async function PostPage({ params }: Props) {
     <div>
       <Header />
       <div className="max-w-[900px] mx-auto p-4">
-        <article className="prose dark:prose-invert max-w-none mt-8">
+        <div className="markdown-body">
           <h1>{post.title}</h1>
           <MDXRemote source={post.content} />
-        </article>
+        </div>
       </div>
     </div>
   );
