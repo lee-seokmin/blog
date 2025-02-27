@@ -3,6 +3,7 @@ import Header from '@/app/components/header';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import 'github-markdown-css';
 import Image from 'next/image';
+import Footer from '@/app/components/footer';
 
 interface Props {
   params: {
@@ -45,6 +46,7 @@ export default async function PostPage({ params }: Props) {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
