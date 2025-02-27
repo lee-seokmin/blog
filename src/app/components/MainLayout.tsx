@@ -21,12 +21,16 @@ export default function MainLayout() {
   useEffect(() => {
     const fetchPosts = async () => {
       const content = await getMdxContent();
-      setPosts(content);
-      setBestPosts(content.filter(post => post.best));
+      // Sort posts by date in descending order
+      const sortedContent = content.sort((a, b) => 
+        new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+      setPosts(sortedContent);
+      setBestPosts(sortedContent.filter(post => post.best));
       
       // Count posts per tag
       const counts: {[key: string]: number} = {};
-      content.forEach(post => {
+      sortedContent.forEach(post => {
         const tag = post.tags.trim();
         counts[tag] = (counts[tag] || 0) + 1;
       });
