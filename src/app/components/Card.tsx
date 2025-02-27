@@ -20,23 +20,11 @@ export default function Card({ content }: CardProps) {
       </div>
       {content && (
         <>
-          <div className="flex pl-2 pr-2 gap-3 align-center">
-            <p className="text-m border-2 border-current pl-2 pr-2 pt-1 pb-1 rounded-full">{content.date}</p>
+          <div className="flex">
             <p className="text-m border-2 border-current pl-2 pr-2 pt-1 pb-1 rounded-full">{content.tags}</p>
           </div>
-          <div className="pl-2 pr-2">
-            <p className="text-2xl font-bold">{content.title}</p>
-          </div>
-          <div className="flex pl-2 pr-2 flex-row gap-3">
-            <div className="flex gap-1 items-center">
-              <FontAwesomeIcon icon={faHeart} />
-              <span>0</span>
-            </div>
-            <div className="flex gap-1 items-center">
-              <FontAwesomeIcon icon={faMessage} />
-              <span>0</span>
-            </div>
-          </div>
+          <p className="text-2xl font-bold">{content.title}</p>
+          <p className="text-m">{content.date}</p>
         </>
       )}
     </div>
