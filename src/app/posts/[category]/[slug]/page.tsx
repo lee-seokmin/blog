@@ -31,7 +31,7 @@ export default async function PostPage({ params }: Props) {
             <h1>{post.title}</h1>
             <p>{post.date}</p>
           </div>
-          <div className="relative h-full max-h-full mb-8">
+          <div className="relative mb-8 aspect-[16/9] rounded-xl overflow-hidden">
             <Image
               className="object-cover rounded-xl"
               src={`${post.thumbnail}`}
