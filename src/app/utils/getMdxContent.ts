@@ -6,6 +6,7 @@ import matter from 'gray-matter';
 
 export interface MdxContent {
   title: string;
+  description: string;
   thumbnail: string;
   date: string;
   category: string;
@@ -39,11 +40,12 @@ export async function getMdxContent(): Promise<MdxContent[]> {
           
           contents.push({
             title: data.title || 'Untitled',
+            description: data.description,
             thumbnail: thumbnailPath,
             date: data.createAt || new Date().toISOString(),
             category: decodeURIComponent(category),
-            slug: data.slug || filename.replace('.mdx', ''),
             tags: data.tags || decodeURIComponent(category),
+            slug: data.slug || filename.replace('.mdx', ''),
             best: data.best || false,
             content
           });

@@ -11,7 +11,7 @@ interface CardProps {
 export default function Card({ content }: CardProps) {
   const cardContent = (
     <div className="flex w-full aspect-square rounded-3xl cursor-pointer flex-col gap-3 Card">
-      <div className="relative w-full aspect-[3/2] rounded-3xl Card__imageHolder overflow-hidden">
+      <div className="relative w-full aspect-[3/2] rounded-3xl Card__imageHolder overflow-hidden" title={`${content?.description}`}>
         <Image
           className="object-cover rounded-3xl Card__image"
           src={`${content?.thumbnail}`}

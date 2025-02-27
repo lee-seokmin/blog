@@ -92,7 +92,7 @@ html {
 }
 
 .Card__imageHolder::before {
-  content: "description";
+  content: attr(title);
   color: #fff;
   font-size: 1rem;
   position: absolute;
