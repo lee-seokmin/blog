@@ -1,8 +1,9 @@
 import Card from "@/app/components/Card";
 import { Dispatch, SetStateAction, useEffect, useCallback } from "react";
+import type { MdxContent } from '../utils/getMdxContent';
 
 interface CarouselProps {
-  slides: string[];
+  slides: MdxContent[];
   currentSlide: number;
   setCurrentSlide: Dispatch<SetStateAction<number>>;
   interval?: number;
@@ -35,7 +36,7 @@ export default function Carousel({
       >
         {slides.map((slide, index: number) => (
           <div key={index} className="min-w-full">
-            <Card url={slide} />
+            <Card content={slide} />
           </div>
         ))}
       </div>

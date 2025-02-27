@@ -12,35 +12,27 @@ export default function MainLayout() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [posts, setPosts] = useState<MdxContent[]>([]);
-
-  const slides: Array<string> = [
-    "https://junghyeonsu.com/static/71dc23f96460c19de7bd460ee75ca3da/3dfe0/cover.webp",
-    "https://junghyeonsu.com/static/1077d5b05b43f57b75000f91b1bde1f6/71d4d/cover.webp",
-    "https://junghyeonsu.com/static/e7b47cc176352a2eb0d9a41620c070ac/67ded/cover.webp",
-    "https://junghyeonsu.com/static/71dc23f96460c19de7bd460ee75ca3da/3dfe0/cover.webp",
-    "https://junghyeonsu.com/static/1077d5b05b43f57b75000f91b1bde1f6/71d4d/cover.webp",
-    "https://junghyeonsu.com/static/e7b47cc176352a2eb0d9a41620c070ac/67ded/cover.webp"
-  ]
+  const [bestPosts, setBestPosts] = useState<MdxContent[]>([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
       const content = await getMdxContent();
-      console.log(content);
       setPosts(content);
+      setBestPosts(content.filter(post => post.best));
     };
     fetchPosts();
   }, []);
 
   const previousSlide = () => {
     if (currentSlide === 0) {
-      setCurrentSlide(slides.length - 1);
+      setCurrentSlide(bestPosts.length - 1);
     } else {
       setCurrentSlide(currentSlide - 1);
     }
   };
 
   const nextSlide = () => {
-    if (currentSlide === slides.length - 1) {
+    if (currentSlide === bestPosts.length - 1) {
       setCurrentSlide(0);
     } else {
       setCurrentSlide(currentSlide + 1);
@@ -67,7 +59,7 @@ export default function MainLayout() {
                   </button>
                 </div>
                 <div className="flex justify-end gap-2">
-                  {slides.map((_, index) => (
+                  {Array(bestPosts.length).fill(null).map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentSlide(index)}
@@ -84,7 +76,7 @@ export default function MainLayout() {
             </div>
           </div>
           <Carousel 
-            slides={slides} 
+            slides={bestPosts} 
             currentSlide={currentSlide} 
             setCurrentSlide={setCurrentSlide}
             isPaused={isPaused} 

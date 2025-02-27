@@ -11,6 +11,7 @@ export interface MdxContent {
   tags: string;
   slug: string;
   content: string;
+  best: boolean;
 }
 
 export async function getMdxContent(): Promise<MdxContent[]> {
@@ -35,7 +36,8 @@ export async function getMdxContent(): Promise<MdxContent[]> {
             date: data.createAt || new Date().toISOString(),
             category: decodeURIComponent(category),
             slug: data.slug || filename.replace('.mdx', ''),
-            tags: data.tags,
+            tags: data.tags || decodeURIComponent(category),
+            best: data.best || false,
             content
           });
         }
@@ -45,3 +47,4 @@ export async function getMdxContent(): Promise<MdxContent[]> {
 
   return contents;
 }
+
