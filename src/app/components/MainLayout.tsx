@@ -13,12 +13,19 @@ export default function MainLayout() {
   const [isPaused, setIsPaused] = useState(false);
   const [posts, setPosts] = useState<MdxContent[]>([]);
   const [bestPosts, setBestPosts] = useState<MdxContent[]>([]);
+  const [uniqueTags, setUniqueTags] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
       const content = await getMdxContent();
       setPosts(content);
       setBestPosts(content.filter(post => post.best));
+      
+      const tags = content.reduce((acc: string[], post) => {
+        const postTags = post.tags.split(',').map(tag => tag.trim());
+        return [...acc, ...postTags];
+      }, []);
+      setUniqueTags([...new Set(tags)]);
     };
     fetchPosts();
   }, []);
@@ -85,8 +92,11 @@ export default function MainLayout() {
         <div className="flex flex-col gap-3 w-full md:w-1/5">
           <h1 className="text-xl font-bold italic md:pr-5 cursor-pointer Categories">Categories.</h1>
           <ul className="flex cursor-pointer flex-col gap-2">
-            <li className="hover:underline">Python</li>
-            <li className="hover:underline">일기</li>
+            {uniqueTags.map((tag, index) => (
+              <li key={index} className="hover:underline">
+                {tag}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
