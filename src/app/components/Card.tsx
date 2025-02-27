@@ -1,12 +1,15 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import type { MdxContent } from '../utils/getMdxContent';
 
 interface CardProps {
   content?: MdxContent;
+  isFirst?: boolean;
 }
 
-export default function Card({ content }: CardProps) {
+export default function Card({ content, isFirst }: CardProps) {
   const cardContent = (
     <div className="flex w-full aspect-square rounded-3xl cursor-pointer flex-col gap-3 Card">
       <div className="relative w-full aspect-[3/2] rounded-3xl Card__imageHolder overflow-hidden" title={`${content?.description}`}>
@@ -14,7 +17,8 @@ export default function Card({ content }: CardProps) {
           className="object-cover rounded-3xl Card__image"
           src={`${content?.thumbnail}`}
           alt={content?.title || "Card image"}
-          fill />
+          fill
+          priority={isFirst} />
       </div>
       {content && (
         <>
@@ -22,7 +26,7 @@ export default function Card({ content }: CardProps) {
             <p className="text-m border-2 border-current pl-2 pr-2 pt-1 pb-1 rounded-full">{content.tags}</p>
           </div>
           <p className="text-2xl font-bold">{content.title}</p>
-          <p className="text-m">{content.date}</p>
+          <p className="text-m">{content.createAt}</p>
         </>
       )}
     </div>
@@ -30,7 +34,7 @@ export default function Card({ content }: CardProps) {
 
   if (content) {
     return (
-      <Link href={`/${content.category}/${content.slug}`}>
+      <Link href={`/posts/${content.slug}`}>
         {cardContent}
       </Link>
     );

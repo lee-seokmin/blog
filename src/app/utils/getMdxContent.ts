@@ -8,7 +8,7 @@ export interface MdxContent {
   title: string;
   description: string;
   thumbnail: string;
-  date: string;
+  createAt: string;
   category: string;
   tags: string;
   slug: string;
@@ -42,7 +42,7 @@ export async function getMdxContent(): Promise<MdxContent[]> {
             title: data.title || 'Untitled',
             description: data.description,
             thumbnail: thumbnailPath,
-            date: data.createAt || new Date().toISOString(),
+            createAt: data.createAt || new Date().toISOString(),
             category: decodeURIComponent(category),
             tags: data.tags || decodeURIComponent(category),
             slug: data.slug || filename.replace('.mdx', ''),

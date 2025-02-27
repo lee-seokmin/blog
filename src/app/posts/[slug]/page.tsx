@@ -5,32 +5,32 @@ import 'github-markdown-css';
 import Image from 'next/image';
 import Footer from '@/app/components/footer';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 type Props = {
   params: {
-    category: string;
     slug: string;
   };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { category, slug } = await params;
+  const { slug } = await params;
+  const posts = await getMdxContent();
+  const post = posts.find(p => p.slug === slug);
+  
   return {
-    title: `${category} - ${slug}`,
+    title: post ? `${post.title} - Dev Blog` : 'Not Found',
   };
 }
 
 export default async function PostPage({ params }: Props) {
-  const { category, slug } = await params;
+  const { slug } = await params;
   const posts = await getMdxContent();
-  const post = posts.find(
-    p => p.category === category && p.slug === slug
-  );
+  const post = posts.find(p => p.slug === slug);
 
   if (!post) {
-    console.log({ category, slug });
-    return <div>Post not found</div>;
+    notFound();
   }
 
   return (
@@ -40,12 +40,12 @@ export default async function PostPage({ params }: Props) {
         <div className="markdown-body w-full">
           <div className="flex items-end gap-5">
             <h1>{post.title}</h1>
-            <p>{post.date}</p>
+            <p>{post.createAt}</p>
           </div>
           <div className="relative mb-8 aspect-[16/9] rounded-xl overflow-hidden">
             <Image
               className="object-cover rounded-xl"
-              src={`${post.thumbnail}`}
+              src={post.thumbnail}
               alt={post.title}
               fill
               priority

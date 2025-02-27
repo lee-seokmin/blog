@@ -23,7 +23,7 @@ export default function MainLayout() {
       const content = await getMdxContent();
       // Sort posts by date in descending order
       const sortedContent = content.sort((a, b) => 
-        new Date(b.date).getTime() - new Date(a.date).getTime()
+        new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
       );
       setPosts(sortedContent);
       setBestPosts(sortedContent.filter(post => post.best));
@@ -127,7 +127,7 @@ export default function MainLayout() {
               currentCategory === "Recent Posts." ? true : post.tags === currentCategory
             )
             .map((post, index) => (
-              <Card key={index} content={post} />
+              <Card key={index} content={post} isFirst={index === 0} />
             ))}
         </div>
       </div>
