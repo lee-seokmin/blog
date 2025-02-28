@@ -14,7 +14,7 @@ export default function RelatedPosts({ category, currentSlug }: { category: stri
       setRelatedPosts(related_posts);
     };
     fetchPosts();
-  }, []);
+  }, [category, currentSlug]);
   return (
     <div className="mt-16">
       <p className="text-2xl font-bold mb-4">관련된 포스트가 {RelatedPosts.length}개 있어요.</p>
