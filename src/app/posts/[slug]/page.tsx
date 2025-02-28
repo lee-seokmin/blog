@@ -34,9 +34,16 @@ export default async function PostPage({ params }: Props) {
     notFound();
   }
 
+  // Calculate categories
+  const categories = Array.from(new Set(posts.map(post => post.tags)))
+    .map(tags => ({
+      name: tags,
+      count: posts.filter(post => post.tags === tags).length
+    }));
+
   return (
     <div>
-      <Header />
+      <Header categories={categories} />
       <div className="flex w-full max-w-[1200px] mx-auto p-4 md:p-4 sm:p-2 gap-8 SlideInLeft">
         <div className="markdown-body flex-1 break-words overflow-hidden">
           <div className="flex flex-wrap items-end gap-5">
