@@ -14,9 +14,10 @@ export interface MdxContent {
   slug: string;
   content: string;
   best: boolean;
+  subcategory?: string;  // Add subcategory field
 }
 
-function readMdxFilesRecursively(dirPath: string, category: string): MdxContent[] {
+function readMdxFilesRecursively(dirPath: string, baseCategory: string, subPath: string = ''): MdxContent[] {
   const contents: MdxContent[] = [];
   const items = fs.readdirSync(dirPath);
 
@@ -25,22 +26,24 @@ function readMdxFilesRecursively(dirPath: string, category: string): MdxContent[
     const stat = fs.statSync(fullPath);
 
     if (stat.isDirectory()) {
-      contents.push(...readMdxFilesRecursively(fullPath, category));
+      const newSubPath = subPath ? path.join(subPath, item) : item;
+      contents.push(...readMdxFilesRecursively(fullPath, baseCategory, newSubPath));
     } else if (item.endsWith('.mdx')) {
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const { data, content } = matter(fileContents);
       
       const thumbnailPath = data.thumbnail
-        ? `${path.join("/PostCover", category, data.thumbnail)}`
-        : `${path.join("/PostCover", category, 'cover.jpg')}`;
+        ? `${path.join("/contents", baseCategory, subPath, data.thumbnail)}`
+        : `${path.join("/contents", baseCategory, 'cover.jpg')}`;
       
       contents.push({
         title: data.title || 'Untitled',
         description: data.description,
         thumbnail: thumbnailPath,
         createAt: data.createAt || new Date().toISOString(),
-        category: decodeURIComponent(category),
-        tags: data.tags || decodeURIComponent(category),
+        category: decodeURIComponent(baseCategory),
+        subcategory: subPath ? decodeURIComponent(subPath) : undefined,
+        tags: data.tags || decodeURIComponent(baseCategory),
         slug: data.slug || item.replace('.mdx', ''),
         best: data.best || false,
         content
@@ -51,8 +54,24 @@ function readMdxFilesRecursively(dirPath: string, category: string): MdxContent[
   return contents;
 }
 
+export async function getCategoryMdxContent(category: string, subcategory?: string): Promise<MdxContent[]> {
+  const postsDirectory = path.join(process.cwd(), 'public/contents');
+  let categoryPath = path.join(postsDirectory, category);
+  
+  if (subcategory) {
+    categoryPath = path.join(categoryPath, subcategory);
+  }
+  
+  if (!fs.existsSync(categoryPath)) {
+    return [];
+  }
+
+  const contents = readMdxFilesRecursively(categoryPath, category, subcategory || '');
+  return contents;
+}
+
 export async function getMdxContent(): Promise<MdxContent[]> {
-  const postsDirectory = path.join(process.cwd(), 'contents');
+  const postsDirectory = path.join(process.cwd(), 'public/contents');
   const contents: MdxContent[] = [];
 
   const categories = fs.readdirSync(postsDirectory);

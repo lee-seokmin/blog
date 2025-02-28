@@ -9,9 +9,6 @@ const nextConfig: NextConfig = {
   ],
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   reactStrictMode: true,
-  images: {
-    unoptimized: true
-  },
   webpack: (config) => {
     config.resolve.fallback = { fs: false };
 
