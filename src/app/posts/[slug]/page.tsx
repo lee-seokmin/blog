@@ -37,10 +37,10 @@ export default async function PostPage({ params }: Props) {
   return (
     <div>
       <Header />
-      <div className="flex w-full max-w-[1200px] mx-auto p-4 gap-8 SlideInLeft">
-        <div className="markdown-body flex-1">
-          <div className="flex items-end gap-5">
-            <h1>{post.title}</h1>
+      <div className="flex w-full max-w-[1200px] mx-auto p-4 md:p-4 sm:p-2 gap-8 SlideInLeft">
+        <div className="markdown-body flex-1 break-words overflow-hidden">
+          <div className="flex flex-wrap items-end gap-5">
+            <h1 className="break-words">{post.title}</h1>
             <p>{post.createAt}</p>
           </div>
           <div className="relative mb-8 aspect-[16/9] rounded-xl overflow-hidden">
@@ -52,7 +52,7 @@ export default async function PostPage({ params }: Props) {
               priority
             />
           </div>
-          <div className="prose max-w-none">
+          <div className="prose max-w-none prose-pre:break-words prose-img:max-w-full">
             <MDXRemote source={post.content} />
           </div>
         </div>
