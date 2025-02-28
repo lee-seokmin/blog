@@ -51,14 +51,15 @@ export default function TableOfContents() {
   };
 
   return (
-    <nav className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-auto hidden md:block">
+    <nav className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-hidden break-words hidden md:block">
       <p className="font-semibold text-xl">Table Of Contents</p>
       <ul className="space-y-2">
         {headings.map((heading) => (
           <li
             key={`toc-${heading.id}`}
             style={{ paddingLeft: `${(heading.level - 1) * 1}rem` }}
-            className={`cursor-pointer transition-all duration-200 text-sm ${
+            className={`cursor-pointer transition-all duration-200 text-sm
+              prose max-w-none prose-pre:break-words ${
               activeId === heading.id 
                 ? 'text-blue-500 scale-105 origin-left' 
                 : 'text-gray-600 hover:text-blue-400'
