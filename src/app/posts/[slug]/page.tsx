@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Footer from '@/app/components/footer';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import TableOfContents from '@/app/components/TableOfContents';
 
 type Props = {
   params: {
@@ -36,8 +37,8 @@ export default async function PostPage({ params }: Props) {
   return (
     <div>
       <Header />
-      <div className="flex w-full max-w-[900px] mx-auto p-4 SlideInLeft">
-        <div className="markdown-body w-full">
+      <div className="flex w-full max-w-[1200px] mx-auto p-4 gap-8 SlideInLeft">
+        <div className="markdown-body flex-1">
           <div className="flex items-end gap-5">
             <h1>{post.title}</h1>
             <p>{post.createAt}</p>
@@ -54,6 +55,9 @@ export default async function PostPage({ params }: Props) {
           <div className="prose max-w-none">
             <MDXRemote source={post.content} />
           </div>
+        </div>
+        <div className="hidden lg:block">
+          <TableOfContents />
         </div>
       </div>
       <Footer />
