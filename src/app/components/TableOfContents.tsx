@@ -20,7 +20,6 @@ export default function TableOfContents() {
       level: parseInt(element.tagName[1]),
     }));
     
-    // Ensure elements have IDs
     elements.forEach((element, index) => {
       if (!element.id) {
         element.id = `heading-${index}`;
