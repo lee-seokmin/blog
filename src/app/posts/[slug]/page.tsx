@@ -10,13 +10,11 @@ import TableOfContents from '@/app/components/TableOfContents';
 import RelatedPosts from '@/app/components/RelatedPosts';
 
 type Props = {
-  params: {
-    slug: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const { slug } = params;
   const posts = await getMdxContent();
   const post = posts.find(p => p.slug === slug);
@@ -26,7 +24,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function PostPage({ params }: Props) {
+export default async function PostPage(props: Props) {
+  const params = await props.params;
   const { slug } = params;
   const posts = await getMdxContent();
   const post = posts.find(p => p.slug === slug);
