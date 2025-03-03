@@ -17,7 +17,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const posts = await getMdxContent();
   const post = posts.find(p => p.slug === slug);
   
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PostPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug } = params;
   const posts = await getMdxContent();
   const post = posts.find(p => p.slug === slug);
 
