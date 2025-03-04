@@ -14,7 +14,7 @@ export interface MdxContent {
   slug: string;
   content: string;
   best: boolean;
-  subcategory?: string;  // Add subcategory field
+  subcategory?: string;
 }
 
 function readMdxFilesRecursively(dirPath: string, baseCategory: string, subPath: string = ''): MdxContent[] {
@@ -55,7 +55,7 @@ function readMdxFilesRecursively(dirPath: string, baseCategory: string, subPath:
 }
 
 export async function getCategoryMdxContent(category: string, subcategory?: string): Promise<MdxContent[]> {
-  const postsDirectory = '/contents';
+  const postsDirectory = path.resolve(process.cwd(), 'public/contents');
   let categoryPath = path.join(postsDirectory, category);
   
   if (subcategory) {
@@ -71,11 +71,11 @@ export async function getCategoryMdxContent(category: string, subcategory?: stri
 }
 
 export async function getMdxContent(): Promise<MdxContent[]> {
-  const postsDirectory = '/contents';
+  const postsDirectory = path.resolve(process.cwd(), 'public/contents');
   const contents: MdxContent[] = [];
 
   const categories = fs.readdirSync(postsDirectory);
-  
+
   categories.forEach(category => {
     const categoryPath = path.join(postsDirectory, category);
     if (fs.statSync(categoryPath).isDirectory()) {
