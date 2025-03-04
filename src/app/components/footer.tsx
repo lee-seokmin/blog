@@ -1,3 +1,5 @@
+'use client';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
@@ -11,10 +13,9 @@ export default function Footer() {
       <div className="w-32 h-32 relative rounded-full overflow-hidden">
         <Image 
           className="object-cover"
-          src={"/profile.jpg"}
+          src={'/image/profile.JPG'}
           alt="profile"
           fill
-          priority
         />
       </div>
       <p>이석민</p>
