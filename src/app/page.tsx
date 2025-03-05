@@ -1,6 +1,6 @@
-import MainLayout from "@/app/components/MainLayout";
-import Header from "@/app/components/header";
-import Footer from "./components/footer";
+import MainLayout from "@/components/MainLayout";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 export default function Home() {
   return (

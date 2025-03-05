@@ -55,7 +55,14 @@ function readMdxFilesRecursively(dirPath: string, baseCategory: string, subPath:
 }
 
 export async function getCategoryMdxContent(category: string, subcategory?: string): Promise<MdxContent[]> {
-  const postsDirectory = path.resolve(process.cwd(), 'public/contents');
+  const postsDirectory = path.join(process.cwd(), 'public', 'contents');
+  
+  // Add check if base directory exists
+  if (!fs.existsSync(postsDirectory)) {
+    console.warn(`Content directory not found at: ${postsDirectory}`);
+    return [];
+  }
+
   let categoryPath = path.join(postsDirectory, category);
   
   if (subcategory) {
@@ -63,25 +70,47 @@ export async function getCategoryMdxContent(category: string, subcategory?: stri
   }
   
   if (!fs.existsSync(categoryPath)) {
+    console.warn(`Category directory not found at: ${categoryPath}`);
     return [];
   }
 
-  const contents = readMdxFilesRecursively(categoryPath, category, subcategory || '');
-  return contents;
+  try {
+    const contents = readMdxFilesRecursively(categoryPath, category, subcategory || '');
+    return contents;
+  } catch (error) {
+    console.error('Error reading category contents:', error);
+    return [];
+  }
 }
 
 export async function getMdxContent(): Promise<MdxContent[]> {
-  const postsDirectory = path.resolve(process.cwd(), 'public/contents');
+  const postsDirectory = path.join(process.cwd(), 'public', 'contents');
+  
+  // Add check if directory exists
+  if (!fs.existsSync(postsDirectory)) {
+    console.warn(`Content directory not found at: ${postsDirectory}`);
+    console.log(fs.readdirSync('/'));
+    console.log(fs.readdirSync('/var'));
+    console.log(__dirname);
+    console.log(fs.readdirSync(process.cwd()));
+    return [];
+  }
+
   const contents: MdxContent[] = [];
 
-  const categories = fs.readdirSync(postsDirectory);
+  try {
+    const categories = fs.readdirSync(postsDirectory);
 
-  categories.forEach(category => {
-    const categoryPath = path.join(postsDirectory, category);
-    if (fs.statSync(categoryPath).isDirectory()) {
-      contents.push(...readMdxFilesRecursively(categoryPath, category));
-    }
-  });
+    categories.forEach(category => {
+      const categoryPath = path.join(postsDirectory, category);
+      if (fs.statSync(categoryPath).isDirectory()) {
+        contents.push(...readMdxFilesRecursively(categoryPath, category));
+      }
+    });
+  } catch (error) {
+    console.error('Error reading contents directory:', error);
+    return [];
+  }
 
   return contents;
 }

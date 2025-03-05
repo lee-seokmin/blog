@@ -1,4 +1,4 @@
-import Card from "@/app/components/Card";
+import Card from "@/components/Card";
 import { Dispatch, SetStateAction, useEffect, useCallback } from "react";
 import type { MdxContent } from '../utils/getMdxContent';
 

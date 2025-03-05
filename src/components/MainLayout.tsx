@@ -1,12 +1,12 @@
 'use client';
 
-import Card from "@/app/components/Card";
-import Carousel from "@/app/components/Carousel";
+import Card from "@/components/Card";
+import Carousel from "@/components/Carousel";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
-import { getMdxContent } from '../utils/getMdxContent';
-import type { MdxContent } from '../utils/getMdxContent';
+import { getMdxContent } from '@/utils/getMdxContent';
+import type { MdxContent } from '@/utils/getMdxContent';
 import Link from "next/link";
 import Header from './header';
 

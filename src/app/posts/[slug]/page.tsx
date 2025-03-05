@@ -1,13 +1,13 @@
-import { getMdxContent } from '@/app/utils/getMdxContent';
-import Header from '@/app/components/header';
+import { getMdxContent } from '@/utils/getMdxContent';
+import Header from '@/components/header';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import 'github-markdown-css';
 import Image from 'next/image';
-import Footer from '@/app/components/footer';
+import Footer from '@/components/footer';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import TableOfContents from '@/app/components/TableOfContents';
-import RelatedPosts from '@/app/components/RelatedPosts';
+import TableOfContents from '@/components/TableOfContents';
+import RelatedPosts from '@/components/RelatedPosts';
 
 type Props = {
   params: Promise<{ slug: string }>;

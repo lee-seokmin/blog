@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import type { MdxContent } from '../utils/getMdxContent';
+import type { MdxContent } from '@/utils/getMdxContent';
 
 interface CardProps {
   content?: MdxContent;
