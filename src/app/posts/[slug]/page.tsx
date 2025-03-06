@@ -1,4 +1,3 @@
-import { getMdxContent } from '@/utils/getMdxContent';
 import Header from '@/components/header';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import 'github-markdown-css';
@@ -8,16 +7,26 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import TableOfContents from '@/components/TableOfContents';
 import RelatedPosts from '@/components/RelatedPosts';
+import type { MdxContent } from '@/types/MdxContent';
 
 type Props = {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 };
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
+  // Wait for params
   const params = await props.params;
   const { slug } = params;
-  const posts = await getMdxContent();
-  const post = posts.find(p => p.slug === slug);
+
+  // Use proper URL construction
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const apiUrl = `${baseUrl}/api/files`;
+  
+  const response = await fetch(apiUrl, {
+    next: { revalidate: 60 }
+  });
+  const data = await response.json();
+  const post = data.files.find((p: MdxContent) => p.slug === slug);
   
   return {
     title: post ? `${post.title} - Dev Blog` : 'Not Found',
@@ -27,19 +36,25 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function PostPage(props: Props) {
   const params = await props.params;
   const { slug } = params;
-  const posts = await getMdxContent();
-  const post = posts.find(p => p.slug === slug);
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const apiUrl = `${baseUrl}/api/files`;
+
+  const response = await fetch(apiUrl, {
+    next: { revalidate: 60 }
+  });
+  const data = await response.json();
+  const post = data.files.find((p: MdxContent) => p.slug === slug);
 
   if (!post) {
     notFound();
   }
 
   // Calculate categories
-  const categories = Array.from(new Set(posts.map(post => post.tags)))
-    .map(tags => ({
-      name: tags,
-      count: posts.filter(post => post.tags === tags).length
-    }));
+  const categories = Array.from(new Set(data.files.map((post: MdxContent) => post.tags))).map((tags: unknown) => ({
+    name: tags as string,
+    count: data.files.filter((post: MdxContent) => post.tags === tags).length
+  }));
 
   return (
     <div>
@@ -62,7 +77,9 @@ export default async function PostPage(props: Props) {
           <div className="markdown-body prose max-w-none prose-pre:break-words prose-img:max-w-full">
             <MDXRemote source={post.content} />
           </div>
-          <RelatedPosts category={post.category} currentSlug={slug} />
+          <RelatedPosts 
+            related_posts={data.files.filter((p: MdxContent) => p.tags === post.tags && p.slug != slug)} 
+          />
         </div>
         <div className="hidden md:block md:w-1/5">
           <TableOfContents />

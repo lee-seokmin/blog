@@ -1,6 +1,6 @@
 import Card from "@/components/Card";
 import { Dispatch, SetStateAction, useEffect, useCallback } from "react";
-import type { MdxContent } from '../utils/getMdxContent';
+import type { MdxContent } from '../types/MdxContent';
 
 interface CarouselProps {
   slides: MdxContent[];

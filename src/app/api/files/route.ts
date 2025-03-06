@@ -42,7 +42,7 @@ function readMdxFilesRecursively(dirPath: string, baseCategory: string, subPath:
   return contents;
 }
 
-export async function GET() {
+export async function GET() {  // Add Request parameter
   try {
     const directoryPath = path.join(process.cwd(), '_posts');
     
@@ -52,7 +52,7 @@ export async function GET() {
         files: [],
         count: 0,
         error: 'Directory not found' 
-      });
+      }, { status: 404 });  // Add proper status code
     }
 
     const categories = fs.readdirSync(directoryPath);
@@ -68,7 +68,7 @@ export async function GET() {
     return NextResponse.json({ 
       files: contents,
       count: contents.length 
-    });
+    }, { status: 200 });  // Add proper status code
     
   } catch (error) {
     console.error('Files API Error:', error);
