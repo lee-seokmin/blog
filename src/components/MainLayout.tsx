@@ -19,7 +19,7 @@ export default function MainLayout() {
   const [currentCategory, setCurrentCategory] = useState<string>("Recent Posts.");
 
   useEffect(() => {
-    fetch('/api/files')
+    fetch(`/api/files`)
       .then((res) => res.json())
       .then((data) => {
         const content = data.files;

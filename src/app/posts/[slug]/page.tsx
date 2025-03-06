@@ -10,21 +10,34 @@ import RelatedPosts from '@/components/RelatedPosts';
 import type { MdxContent } from '@/types/MdxContent';
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  const { slug } = props.params;
+async function getPosts() {
+  console.log(process.env);
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/files`, {
+      next: { revalidate: 60 }, // Optional: cache for 60 seconds
+    });
 
-  // Use proper URL construction
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const apiUrl = `${baseUrl}/api/files`;
-  
-  const response = await fetch(apiUrl, {
-    next: { revalidate: 60 }
-  });
-  const data = await response.json();
-  const post = data.files.find((p: MdxContent) => p.slug === slug);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch posts: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.files;
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return [];
+  }
+}
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
+  const { slug } = params;
+  const posts = await getPosts();
+  const post = posts.find((p: MdxContent) => p.slug === slug);
   
   return {
     title: post ? `${post.title} - Dev Blog` : 'Not Found',
@@ -32,25 +45,19 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export default async function PostPage(props: Props) {
-  const { slug } = props.params;
-
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const apiUrl = `${baseUrl}/api/files`;
-
-  const response = await fetch(apiUrl, {
-    next: { revalidate: 60 }
-  });
-  const data = await response.json();
-  const post = data.files.find((p: MdxContent) => p.slug === slug);
+  const params = await props.params;
+  const { slug } = params;
+  const posts = await getPosts();
+  const post = posts.find((p: MdxContent) => p.slug === slug);
 
   if (!post) {
     notFound();
   }
 
   // Calculate categories
-  const categories = Array.from(new Set(data.files.map((post: MdxContent) => post.tags))).map((tags: unknown) => ({
+  const categories = Array.from(new Set(posts.map((post: MdxContent) => post.tags))).map((tags: unknown) => ({
     name: tags as string,
-    count: data.files.filter((post: MdxContent) => post.tags === tags).length
+    count: posts.filter((post: MdxContent) => post.tags === tags).length
   }));
 
   return (
@@ -75,7 +82,7 @@ export default async function PostPage(props: Props) {
             <MDXRemote source={post.content} />
           </div>
           <RelatedPosts 
-            related_posts={data.files.filter((p: MdxContent) => p.tags === post.tags && p.slug != slug)} 
+            related_posts={posts.filter((p: MdxContent) => p.tags === post.tags && p.slug != slug)} 
           />
         </div>
         <div className="hidden md:block md:w-1/5">
