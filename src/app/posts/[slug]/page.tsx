@@ -14,9 +14,7 @@ type Props = {
 };
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  // Wait for params
-  const params = await props.params;
-  const { slug } = params;
+  const { slug } = props.params;
 
   // Use proper URL construction
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
@@ -34,8 +32,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export default async function PostPage(props: Props) {
-  const params = await props.params;
-  const { slug } = params;
+  const { slug } = props.params;
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
   const apiUrl = `${baseUrl}/api/files`;
