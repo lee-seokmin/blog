@@ -54,44 +54,42 @@ function readMdxFilesRecursively(dirPath: string, baseCategory: string, subPath:
   return contents;
 }
 
-export async function getCategoryMdxContent(category: string, subcategory?: string): Promise<MdxContent[]> {
-  const postsDirectory = path.join(process.cwd(), 'public', 'contents');
+// export async function getCategoryMdxContent(category: string, subcategory?: string): Promise<MdxContent[]> {
+//   const postsDirectory = path.join(process.cwd(), 'contents');
   
-  // Add check if base directory exists
-  if (!fs.existsSync(postsDirectory)) {
-    console.warn(`Content directory not found at: ${postsDirectory}`);
-    return [];
-  }
+//   // Add check if base directory exists
+//   if (!fs.existsSync(postsDirectory)) {
+//     console.warn(`Content directory not found at: ${postsDirectory}`);
+//     console.log(fs.readdirSync(process.cwd()));
+//     return [];
+//   }
 
-  let categoryPath = path.join(postsDirectory, category);
+//   let categoryPath = path.join(postsDirectory, category);
   
-  if (subcategory) {
-    categoryPath = path.join(categoryPath, subcategory);
-  }
+//   if (subcategory) {
+//     categoryPath = path.join(categoryPath, subcategory);
+//   }
   
-  if (!fs.existsSync(categoryPath)) {
-    console.warn(`Category directory not found at: ${categoryPath}`);
-    return [];
-  }
+//   if (!fs.existsSync(categoryPath)) {
+//     console.warn(`Category directory not found at: ${categoryPath}`);
+//     return [];
+//   }
 
-  try {
-    const contents = readMdxFilesRecursively(categoryPath, category, subcategory || '');
-    return contents;
-  } catch (error) {
-    console.error('Error reading category contents:', error);
-    return [];
-  }
-}
+//   try {
+//     const contents = readMdxFilesRecursively(categoryPath, category, subcategory || '');
+//     return contents;
+//   } catch (error) {
+//     console.error('Error reading category contents:', error);
+//     return [];
+//   }
+// }
 
 export async function getMdxContent(): Promise<MdxContent[]> {
-  const postsDirectory = path.join(process.cwd(), 'public', 'contents');
+  const postsDirectory = path.join(process.cwd(), '_posts');
   
   // Add check if directory exists
   if (!fs.existsSync(postsDirectory)) {
     console.warn(`Content directory not found at: ${postsDirectory}`);
-    console.log(fs.readdirSync('/'));
-    console.log(fs.readdirSync('/var'));
-    console.log(__dirname);
     console.log(fs.readdirSync(process.cwd()));
     return [];
   }
