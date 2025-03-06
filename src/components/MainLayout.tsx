@@ -5,8 +5,7 @@ import Carousel from "@/components/Carousel";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
-import { getMdxContent } from '@/utils/getMdxContent';
-import type { MdxContent } from '@/utils/getMdxContent';
+import type { MdxContent } from '@/types/MdxContent';
 import Link from "next/link";
 import Header from './header';
 
@@ -20,27 +19,30 @@ export default function MainLayout() {
   const [currentCategory, setCurrentCategory] = useState<string>("Recent Posts.");
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const content = await getMdxContent();
-      // Sort posts by date in descending order
-      const sortedContent = content.sort((a, b) => 
-        new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
-      );
-      setPosts(sortedContent);
-      setBestPosts(sortedContent.filter(post => post.best));
-      
-      // Count posts per tag
-      const counts: {[key: string]: number} = {};
-      sortedContent.forEach(post => {
-        const tag = post.tags.trim();
-        counts[tag] = (counts[tag] || 0) + 1;
-      });
-      setTagCounts(counts);
-      
-      const tags = Object.keys(counts);
-      setUniqueTags(tags);
-    };
-    fetchPosts();
+    fetch('/api/files')
+      .then((res) => res.json())
+      .then((data) => {
+        const content = data.files;
+
+        const sortedContent = content.sort((a: MdxContent, b: MdxContent) => 
+          new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
+        );
+
+        setPosts(sortedContent);
+        setBestPosts(sortedContent.filter((post: MdxContent) => post.best));
+        
+        // Count posts per tag
+        const counts: {[key: string]: number} = {};
+        sortedContent.forEach((post: MdxContent) => {
+          const tag = post.tags.trim();
+          counts[tag] = (counts[tag] || 0) + 1;
+        });
+        setTagCounts(counts);
+        
+        const tags = Object.keys(counts);
+        setUniqueTags(tags);
+      })
+      .catch((error) => console.error('파일 목록을 불러오는 중 오류 발생:', error));
   }, []);
 
   const previousSlide = () => {
