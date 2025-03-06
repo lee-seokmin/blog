@@ -14,11 +14,13 @@ type Props = {
 };
 
 async function getPosts() {
-  console.log(process.env);
   try {
-    const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/files`, {
-      next: { revalidate: 60 }, // Optional: cache for 60 seconds
+    const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    // Ensure the URL has a protocol
+    const apiUrl = new URL('/api/files', baseUrl.startsWith('http') ? baseUrl : `https://${baseUrl}`).toString();
+    
+    const response = await fetch(apiUrl, {
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {
