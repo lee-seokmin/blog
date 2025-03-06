@@ -16,7 +16,7 @@ type Props = {
 async function getPosts() {
   console.log(process.env);
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL || 'http://localhost:3000';
     const response = await fetch(`${baseUrl}/api/files`, {
       next: { revalidate: 60 }, // Optional: cache for 60 seconds
     });
