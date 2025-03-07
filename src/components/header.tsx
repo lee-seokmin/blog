@@ -130,7 +130,7 @@ export default function Header({
                   key={index}
                   onClick={() => handleCategoryClick(category.name)}
                 >
-                  <li className={`cursor-pointer hover:underline ${
+                  <li className={`cursor-pointer list-none hover:underline ${
                     currentCategory === category.name ? 'font-bold' : ''
                   }`}>
                     {category.name} ({category.count})

@@ -119,13 +119,13 @@ export default function MainLayout() {
             <h1 className="text-xl font-bold italic md:pr-5 cursor-pointer Categories">Categories.</h1>
             <ul className="flex cursor-pointer flex-col gap-2">
               <Link href={"#Recent Posts."}>
-                <li className="hover:underline" onClick={() => setCurrentCategory("Recent Posts.")}>
+                <li className="hover:underline list-none" onClick={() => setCurrentCategory("Recent Posts.")}>
                   Recent Posts. ({posts.length})
                 </li>
               </Link>
               {uniqueTags.map((tag, index) => (
                 <Link key={index} href={`#${tag}`}>
-                  <li className="hover:underline" onClick={() => setCurrentCategory(tag)}>
+                  <li className="hover:underline list-none" onClick={() => setCurrentCategory(tag)}>
                     {tag} ({tagCounts[tag]})
                   </li>
                 </Link>
