@@ -8,6 +8,7 @@ import { notFound } from 'next/navigation';
 import TableOfContents from '@/components/TableOfContents';
 import RelatedPosts from '@/components/RelatedPosts';
 import type { MdxContent } from '@/types/MdxContent';
+import Comment from '@/components/Comment';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -66,7 +67,7 @@ export default async function PostPage(props: Props) {
     <div>
       <Header categories={categories} />
       <div className="flex w-full max-w-[1000px] mx-auto p-4 md:p-4 sm:p-2 gap-8 SlideInLeft">
-        <div className="flex flex-col gap-5 break-words overflow-hidden w-full md:w-4/5">
+        <div className="flex flex-col gap-10 break-words overflow-hidden w-full md:w-4/5">
           <div className="flex flex-col md:flex-row items-end gap-5">
             <p className="break-words text-[2em] font-semibold">{post.title}</p>
             <p>{post.createAt}</p>
@@ -86,6 +87,7 @@ export default async function PostPage(props: Props) {
           <RelatedPosts 
             related_posts={posts.filter((p: MdxContent) => p.tags === post.tags && p.slug != slug)} 
           />
+          <Comment />
         </div>
         <div className="hidden md:block md:w-1/5">
           <TableOfContents />
