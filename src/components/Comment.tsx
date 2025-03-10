@@ -14,14 +14,13 @@ export default function Comment() {
         repoId="R_kgDOOCQvBg"
         category="General"
         categoryId="DIC_kwDOOCQvBs4CnwXK"
-        mapping="specific"
+        mapping="pathname"
         term="Welcome to seokmin's blog!"
         reactionsEnabled="1"
         emitMetadata="0"
         inputPosition="bottom"
         theme={`${isDark ? 'dark_dimmed' : 'light_protanopia'}`}
         lang="ko"
-        loading="lazy"
       />
     </>
   )
