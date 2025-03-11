@@ -1,27 +1,40 @@
 'use client';
 
-import Giscus from "@giscus/react";
-import { useTheme } from "@/context/ThemeContext";
+import React, { useEffect, useRef, useState } from 'react';
 
-export default function Comment() {
-  const { isDark } = useTheme();
-  
-  return (
-    <>
-      <Giscus
-        id="comments"
-        repo="lee-seokmin/blog"
-        repoId="R_kgDOOCQvBg"
-        category="General"
-        categoryId="DIC_kwDOOCQvBs4CnwXK"
-        mapping="pathname"
-        term="Welcome to seokmin's blog!"
-        reactionsEnabled="1"
-        emitMetadata="0"
-        inputPosition="bottom"
-        theme={`${isDark ? 'dark_dimmed' : 'light_protanopia'}`}
-        lang="ko"
-      />
-    </>
-  )
-}
+const Comments = () => {
+  const [mounted, setMounted] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!mounted) {
+      setMounted(true);
+    }
+  }, [mounted]);
+
+  useEffect(() => {
+    const scriptElement = document.createElement('script');
+    scriptElement.setAttribute('src', 'https://giscus.app/client.js');
+    scriptElement.setAttribute('data-repo', 'lee-seokmin/blog');
+    scriptElement.setAttribute('data-repo-id', 'R_kgDOOCQvBg');
+    scriptElement.setAttribute('data-category', 'General');
+    scriptElement.setAttribute('data-category-id', 'DIC_kwDOOCQvBs4CnwXH');
+    scriptElement.setAttribute('data-mapping', 'pathname');
+    scriptElement.setAttribute('data-strict', '0');
+    scriptElement.setAttribute('data-reactions-enabled', '1');
+    scriptElement.setAttribute('data-emit-metadata', '0');
+    scriptElement.setAttribute('data-input-position', 'bottom');
+    scriptElement.setAttribute('data-theme', 'dark');
+    scriptElement.setAttribute('data-lang', 'ko');
+    scriptElement.setAttribute('crossorigin', 'anonymous');
+    scriptElement.async = true;
+
+    ref.current?.appendChild(scriptElement);
+  }, [mounted]);
+
+  if (!mounted) return null;
+
+  return <div ref={ref} />;
+};
+
+export default Comments;
