@@ -8,6 +8,7 @@ interface CarouselProps {
   setCurrentSlide: Dispatch<SetStateAction<number>>;
   interval?: number;
   isPaused?: boolean;
+  isLoading?: boolean;
 }
 
 export default function Carousel({ 
@@ -15,11 +16,12 @@ export default function Carousel({
   currentSlide, 
   setCurrentSlide, 
   interval = 5000,
-  isPaused = false 
+  isPaused = false,
+  isLoading = false
 }: CarouselProps) {
   const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, [setCurrentSlide, slides.length]);
+    setCurrentSlide((prev) => (prev + 1) % (isLoading ? 3 : slides.length));
+  }, [setCurrentSlide, slides.length, isLoading]);
 
   useEffect(() => {
     if (isPaused) return;
@@ -34,14 +36,25 @@ export default function Carousel({
         className="flex transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
-        {slides.map((slide, index: number) => (
-          <div 
-            key={index} 
-            className="min-w-full transform will-change-transform"
-          >
-            <Card content={slide} />
-          </div>
-        ))}
+        {isLoading ? (
+          Array(3).fill(null).map((_, index) => (
+            <div 
+              key={index} 
+              className="min-w-full transform will-change-transform"
+            >
+              <Card isLoading={true} />
+            </div>
+          ))
+        ) : (
+          slides.map((slide, index: number) => (
+            <div 
+              key={index} 
+              className="min-w-full transform will-change-transform"
+            >
+              <Card content={slide} />
+            </div>
+          ))
+        )}
       </div>
     </div>
   )

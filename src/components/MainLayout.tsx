@@ -17,8 +17,10 @@ export default function MainLayout() {
   const [uniqueTags, setUniqueTags] = useState<string[]>([]);
   const [tagCounts, setTagCounts] = useState<{[key: string]: number}>({});
   const [currentCategory, setCurrentCategory] = useState<string>("Recent Posts.");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`/api/files`)
       .then((res) => res.json())
       .then((data) => {
@@ -41,8 +43,12 @@ export default function MainLayout() {
         
         const tags = Object.keys(counts);
         setUniqueTags(tags);
+        setIsLoading(false);
       })
-      .catch((error) => console.error('파일 목록을 불러오는 중 오류 발생:', error));
+      .catch((error) => {
+        console.error('파일 목록을 불러오는 중 오류 발생:', error);
+        setIsLoading(false);
+      });
   }, []);
 
   const previousSlide = () => {
@@ -92,7 +98,7 @@ export default function MainLayout() {
                     </button>
                   </div>
                   <div className="flex justify-end gap-2">
-                    {Array(bestPosts.length).fill(null).map((_, index) => (
+                    {Array(isLoading ? 3 : bestPosts.length).fill(null).map((_, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
@@ -113,6 +119,7 @@ export default function MainLayout() {
               currentSlide={currentSlide} 
               setCurrentSlide={setCurrentSlide}
               isPaused={isPaused}
+              isLoading={isLoading}
             />
           </div>
           <div className="flex flex-col gap-3 w-full md:w-1/5 hidden md:flex">
@@ -136,13 +143,19 @@ export default function MainLayout() {
         <div className="flex flex-col gap-5">
           <h1 className="text-xl font-bold italic hover:underline cursor-pointer" id={currentCategory}>{currentCategory}</h1>
           <div className="grid md:grid-cols-2 gap-10 grid-cols-1 SlideInLeft">
-            {posts
-              .filter(post => 
-                currentCategory === "Recent Posts." ? true : post.tags === currentCategory
-              )
-              .map((post, index) => (
-                <Card key={index} content={post} isFirst={index === 0} />
-              ))}
+            {isLoading ? (
+              Array(4).fill(null).map((_, index) => (
+                <Card key={index} isLoading={true} />
+              ))
+            ) : (
+              posts
+                .filter(post => 
+                  currentCategory === "Recent Posts." ? true : post.tags === currentCategory
+                )
+                .map((post, index) => (
+                  <Card key={index} content={post} isFirst={index === 0} />
+                ))
+            )}
           </div>
         </div>
       </div>
