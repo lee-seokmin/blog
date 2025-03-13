@@ -90,7 +90,7 @@ export default function Header({
           </p>
         </Link>
         <div className="flex gap-7 md:gap-10 items-center">
-          <Link href="https://seokminfolio.netlify.app/" target="_blank" className="flex">
+          <Link href="https://seokmin-lee.kro.kr" target="_blank" className="flex">
             <p className="hover:underline text-xl italic">
               Portfolio
             </p>
