@@ -4,6 +4,7 @@ import "./globals.css";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ThemeProvider } from "@/context/ThemeContext";
+import ProgressBar from "@/components/ProgressBar";
 config.autoAddCss = false
 
 const sourgummy = Sour_Gummy({
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className={`${sourgummy.variable} antialiased`} suppressHydrationWarning>
+        <ProgressBar />
         <ThemeProvider>
           {children}
         </ThemeProvider>

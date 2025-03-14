@@ -25,6 +25,7 @@
     "gray-matter": "^4.0.3",
     "next": "15.1.7",
     "next-mdx-remote": "^5.0.0",
+    "nextjs-toploader": "^3.7.15",
     "patch-package": "^8.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
