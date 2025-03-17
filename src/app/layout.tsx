@@ -5,6 +5,7 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ThemeProvider } from "@/context/ThemeContext";
 import ProgressBar from "@/components/ProgressBar";
+import GoogleAnalytics from "@/lib/GoogleAnalytics";
 config.autoAddCss = false
 
 const sourgummy = Sour_Gummy({
@@ -29,6 +30,9 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body className={`${sourgummy.variable} antialiased`} suppressHydrationWarning>
         <ProgressBar />
+        {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
+					<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+				) : null}
         <ThemeProvider>
           {children}
         </ThemeProvider>
