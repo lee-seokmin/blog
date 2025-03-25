@@ -11,13 +11,10 @@ import type { MdxContent } from '@/types/MdxContent';
 import Comment from '@/components/Comment';
 import { getPosts } from '@/lib/api';
 
-type Props = {
-  params: Promise<{ slug: string }>;
-};
-
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
   const posts = await getPosts();
-  const post = posts.find((p: MdxContent) => p.slug === params.slug);
+  const post = posts.find((p: MdxContent) => p.slug === slug);
   
   if (!post) {
     return {
@@ -44,9 +41,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function PostPage(props: Props) {
-  const params = await props.params;
-  const { slug } = params;
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const posts = await getPosts();
   const post = posts.find((p: MdxContent) => p.slug === slug);
 

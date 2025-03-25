@@ -27,7 +27,6 @@ export default async function Home() {
 
   const bestPosts = sortedContent.filter((post: MdxContent) => post.best);
   
-  // Count posts per tag
   const counts: {[key: string]: number} = {};
   sortedContent.forEach((post: MdxContent) => {
     const tag = post.tags.trim();

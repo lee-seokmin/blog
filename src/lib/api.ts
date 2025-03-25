@@ -3,7 +3,6 @@ import path from 'path';
 import matter from 'gray-matter';
 import type { MdxContent } from '@/types/MdxContent';
 
-// 서버 컴포넌트에서 직접 사용할 함수
 export async function getPosts(): Promise<MdxContent[]> {
   const postsDirectory = path.join(process.cwd(), '_posts');
   const categories = fs.readdirSync(postsDirectory);
@@ -25,8 +24,6 @@ export async function getPosts(): Promise<MdxContent[]> {
 }
 
 function readMdxFilesRecursively(dirPath: string, baseCategory: string, subPath: string = ''): MdxContent[] {
-  // 기존 readMdxFilesRecursively 함수 구현 복사
-  // src/app/api/files/route.ts에서 가져온 내용과 동일
   const contents: MdxContent[] = [];
   const items = fs.readdirSync(dirPath);
 
