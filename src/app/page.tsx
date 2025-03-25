@@ -1,26 +1,27 @@
 import MainLayout from "@/components/MainLayout";
 import type { MdxContent } from '@/types/MdxContent';
+import { Metadata } from 'next';
+import { getPosts } from '@/lib/api';
 
-async function getData() {
-  const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-  const apiUrl = new URL('/api/files', baseUrl.startsWith('http') ? baseUrl : `https://${baseUrl}`).toString();
+export async function generateMetadata(): Promise<Metadata> {
+  const posts = await getPosts();
+  const recentPosts = posts.slice(0, 5).map((post: MdxContent) => post.title).join(', ');
   
-  const res = await fetch(apiUrl, {
-    next: { revalidate: 60 }, // Revalidate every 60 seconds
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch data');
-  }
-
-  return res.json();
+  return {
+    title: '이석민 기술 블로그',
+    description: `최신 포스트: ${recentPosts}`,
+    openGraph: {
+      title: '이석민 기술 블로그',
+      description: `최신 포스트: ${recentPosts}`,
+      type: 'website',
+    },
+  };
 }
 
 export default async function Home() {
-  const data = await getData();
-  const content = data.files;
+  const data = await getPosts();
 
-  const sortedContent = content.sort((a: MdxContent, b: MdxContent) => 
+  const sortedContent = data.sort((a: MdxContent, b: MdxContent) => 
     new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
   );
 

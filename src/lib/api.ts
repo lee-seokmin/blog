@@ -1,11 +1,32 @@
-import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import type { MdxContent } from '@/types/MdxContent';
 
+// 서버 컴포넌트에서 직접 사용할 함수
+export async function getPosts(): Promise<MdxContent[]> {
+  const postsDirectory = path.join(process.cwd(), '_posts');
+  const categories = fs.readdirSync(postsDirectory);
+  
+  let allPosts: MdxContent[] = [];
+  
+  for (const category of categories) {
+    const categoryPath = path.join(postsDirectory, category);
+    if (fs.statSync(categoryPath).isDirectory()) {
+      const posts = readMdxFilesRecursively(categoryPath, category);
+      allPosts = [...allPosts, ...posts];
+    }
+  }
+  
+  // 날짜 기준으로 정렬 (최신순)
+  return allPosts.sort((a, b) => 
+    new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
+  );
+}
 
 function readMdxFilesRecursively(dirPath: string, baseCategory: string, subPath: string = ''): MdxContent[] {
+  // 기존 readMdxFilesRecursively 함수 구현 복사
+  // src/app/api/files/route.ts에서 가져온 내용과 동일
   const contents: MdxContent[] = [];
   const items = fs.readdirSync(dirPath);
 
@@ -40,45 +61,4 @@ function readMdxFilesRecursively(dirPath: string, baseCategory: string, subPath:
   });
 
   return contents;
-}
-
-export async function GET() {  // Add Request parameter
-  try {
-    const directoryPath = path.join(process.cwd(), '_posts');
-    
-    // Check if directory exists
-    if (!fs.existsSync(directoryPath)) {
-      return NextResponse.json({ 
-        files: [],
-        count: 0,
-        error: 'Directory not found' 
-      }, { status: 404 });  // Add proper status code
-    }
-
-    const categories = fs.readdirSync(directoryPath);
-    const contents: MdxContent[] = [];
-
-    categories.forEach(category => {
-      const categoryPath = path.join(directoryPath, category);
-      if(fs.statSync(categoryPath).isDirectory()) {
-        contents.push(...readMdxFilesRecursively(categoryPath, category));
-      }
-    });
-
-    return NextResponse.json({ 
-      files: contents,
-      count: contents.length 
-    }, { status: 200 });  // Add proper status code
-    
-  } catch (error) {
-    console.error('Files API Error:', error);
-    return NextResponse.json(
-      { 
-        files: [],
-        count: 0,
-        error: 'Failed to read files' 
-      },
-      { status: 500 }
-    );
-  }
-}
+} 

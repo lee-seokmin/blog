@@ -9,41 +9,38 @@ import TableOfContents from '@/components/TableOfContents';
 import RelatedPosts from '@/components/RelatedPosts';
 import type { MdxContent } from '@/types/MdxContent';
 import Comment from '@/components/Comment';
+import { getPosts } from '@/lib/api';
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-async function getPosts() {
-  try {
-    const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-    // Ensure the URL has a protocol
-    const apiUrl = new URL('/api/files', baseUrl.startsWith('http') ? baseUrl : `https://${baseUrl}`).toString();
-    
-    const response = await fetch(apiUrl, {
-      next: { revalidate: 60 },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch posts: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data.files;
-  } catch (error) {
-    console.error('Error fetching posts:', error);
-    return [];
-  }
-}
-
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  const params = await props.params;
-  const { slug } = params;
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const posts = await getPosts();
-  const post = posts.find((p: MdxContent) => p.slug === slug);
+  const post = posts.find((p: MdxContent) => p.slug === params.slug);
   
+  if (!post) {
+    return {
+      title: '포스트를 찾을 수 없습니다',
+      description: '요청하신 포스트를 찾을 수 없습니다.'
+    };
+  }
+
   return {
-    title: post ? `${post.title} - Dev Blog` : 'Not Found',
+    title: `${post.title} | 이석민 기술 블로그`,
+    description: post.description || `${post.title}에 대한 포스트입니다.`,
+    openGraph: {
+      title: post.title,
+      description: post.description || `${post.title}에 대한 포스트입니다.`,
+      images: [post.thumbnail],
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description || `${post.title}에 대한 포스트입니다.`,
+      images: [post.thumbnail],
+    },
   };
 }
 
