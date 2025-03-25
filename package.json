@@ -23,7 +23,7 @@
     "fs": "^0.0.1-security",
     "github-markdown-css": "^5.8.1",
     "gray-matter": "^4.0.3",
-    "next": "15.1.7",
+    "next": "15.2.4",
     "next-mdx-remote": "^5.0.0",
     "nextjs-toploader": "^3.7.15",
     "patch-package": "^8.0.0",
