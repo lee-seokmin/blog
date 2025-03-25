@@ -14,6 +14,7 @@ const sourgummy = Sour_Gummy({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://seokmin-blog.kro.kr"),
   title: "이석민 기술 블로그",
   description: "이석민 기술 블로그",
   icons: {
