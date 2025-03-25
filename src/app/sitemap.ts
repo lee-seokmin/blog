@@ -56,9 +56,13 @@ function getAllPosts(): MdxContent[] {
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
   
+  const formattedBaseUrl = baseUrl.startsWith('http') 
+    ? baseUrl 
+    : `https://${baseUrl}`;
+  
   const routes = [
     {
-      url: `${baseUrl}`,
+      url: `${formattedBaseUrl}`,
       lastModified: new Date(),
     },
   ];
@@ -66,7 +70,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts();
   const postRoutes = posts.map((post) => {
     return {
-      url: `${baseUrl}/posts/${post.slug}`,
+      url: `${formattedBaseUrl}/posts/${post.slug}`,
       lastModified: new Date(post.createAt),
     };
   });
