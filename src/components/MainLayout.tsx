@@ -8,6 +8,7 @@ import { useState } from 'react';
 import type { MdxContent } from '@/types/MdxContent';
 import Link from "next/link";
 import Header from './header';
+import Footer from "./footer";
 
 interface MainLayoutProps {
   posts: MdxContent[];
@@ -123,6 +124,7 @@ export default function MainLayout({ posts, bestPosts, uniqueTags, tagCounts }: 
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
