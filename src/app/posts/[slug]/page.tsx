@@ -61,9 +61,9 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       <Header categories={categories} />
       <div className="flex w-full max-w-[1000px] mx-auto p-4 md:p-4 sm:p-2 gap-8 SlideInLeft">
         <div className="flex flex-col gap-10 break-words overflow-hidden w-full md:w-4/5">
-          <div className="flex flex-col md:flex-row items-end gap-5">
+          <div className="flex flex-col md:flex-row justify-between md:items-end gap-5">
             <p className="break-words text-[2em] font-semibold">{post.title}</p>
-            <p>{post.createAt}</p>
+            <p className="self-end">{post.createAt}</p>
           </div>
           <div className="relative mb-8 aspect-[16/9] rounded-xl overflow-hidden">
             <Image
