@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 이석민 기술 블로그
 
-## Getting Started
+이 프로젝트는 [Next.js](https://nextjs.org)를 기반으로 개발된 개인 기술 블로그입니다.
 
-First, run the development server:
+---
+
+## 💻 기술 스택
+
+- **프레임워크**: Next.js 15
+- **언어**: TypeScript
+- **스타일링**: TailwindCSS
+- **컨텐츠 관리**: MDX
+- **배포**: Vercel
+
+---
+
+## 📁 프로젝트 구조
+
+- `src/app/`: Next.js 앱 라우터 구조
+- `src/components/`: 재사용 가능한 컴포넌트
+- `src/lib/`: 유틸리티 함수 및 API 호출
+- `_posts/`: MDX 형식의 블로그 포스트 저장소
+  - `travel/`: 여행 관련 포스트
+  - `do-not-coding/`: 코딩을 희망하는 사람들을 위한 코딩하지 마세요 포스트
+
+---
+
+## 🔧 로컬 개발 환경 설정
+
+1. **저장소 클론**:
+
+```bash
+git clone <repository-url>
+cd blog
+```
+
+2. **의존성 설치**:
+
+```bash
+npm install
+# 또는
+yarn install
+```
+
+3. **개발 서버 실행**:
 
 ```bash
 npm run dev
-# or
+# 또는
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. **접속 확인**: 브라우저에서 [http://localhost:3000](http://localhost:3000)으로 접속
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 배포
 
-## Learn More
+이 블로그는 [Vercel Platform](https://vercel.com)에 자동으로 배포됩니다.  
+main 브랜치에 변경사항이 푸시되면 자동으로 배포가 진행됩니다.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✨ 주요 기능
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- 📱 **반응형 디자인**: 모바일 및 데스크톱 환경 지원
+- 📝 **MDX 기반**: 마크다운으로 블로그 포스팅
+- 🏷️ **태그 시스템**: 태그 기반 포스트 분류
+- 🖥️ **코드 하이라이팅**: 코드 블록 구문 강조
+- 💬 **댓글 기능**: Giscus 통합
+- 🔍 **포스트 분류**: 최신 포스트 및 베스트 포스트 표시
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📝 포스트 작성 방법
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. `_posts/` 디렉토리 내에 적절한 카테고리 폴더를 선택
+2. MDX 형식으로 새 파일 생성 (예: `my-new-post.mdx`)
+3. 프론트매터에 메타데이터 추가 (제목, 날짜, 태그 등)
+4. 마크다운으로 컨텐츠 작성
+5. 변경사항 저장 및 푸시
+
+---
+
+## ⚖️ 라이센스
+
+이 프로젝트는 개인 블로그로, 모든 컨텐츠 저작권은 소유자에게 있습니다.
